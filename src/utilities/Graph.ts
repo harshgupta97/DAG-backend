@@ -54,7 +54,6 @@ export class Graph {
 
     private traverseDepthFirst(rootNode: GraphNode, visited: Set<GraphNode>) {
 
-        console.log(rootNode.lable);
         visited.add(rootNode);
 
         // @ts-ignore
@@ -114,7 +113,6 @@ export class Graph {
         const visited = new Set<string>();
 
         while (allNodes.size !== 0) {
-            console.log(allNodes)
             let node = allNodes.values().next().value;
             if (this.checkForCycle(node, allNodes, visiting, visited))
                 return true
