@@ -16,7 +16,7 @@ class GraphController implements IControllerBase {
     }
 
     index = (req: Request, res: Response) => {
-        
+
         if(req.body.graph === undefined)
         return res.status(400).send("There is no graph object");
 
@@ -24,10 +24,17 @@ class GraphController implements IControllerBase {
         return res.status(400).send("Please select the source node");
 
         let graphMap = new Graph(req.body.graph);
+
         if (graphMap.hasCycle())
-            return res.status(400).send("The given graph is not acyclic")
+            return res.status(400).send("The given graph is not acyclic");
+
         let paths = graphMap.findAllPathSource(req.body.node.toString());
-        return res.status(200).send(paths);
+
+        if (Array.isArray(paths))
+            return res.status(200).send(paths);
+
+        return res.status(404).send("something weng wrong");
+
     }
 
 

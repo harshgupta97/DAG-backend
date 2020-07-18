@@ -7,18 +7,16 @@ export class Graph {
 
     constructor(graphData: any) {
 
-        graphData.forEach((element: Object) => {
-            let node = Object.keys(element)[0];
+        for (const [node, neighbours] of Object.entries(graphData)) {
             this.addNode(node);
-        });
+        }
 
-        graphData.forEach((element: Object) => {
-            let neighbours = Object.values(element)[0];
-            let node = Object.keys(element)[0];
-            neighbours.forEach((neighbour: string) => {
+        for (const [node, neighbours ] of Object.entries(graphData)) {
+            for (let neighbour of neighbours as []) {
+                // @ts-ignore
                 this.addEdge(node, neighbour.toString());
-            })
-        });
+            }
+        }
     }
 
     public addNode(lable: string) {
@@ -31,12 +29,12 @@ export class Graph {
 
         let fromNode = this.nodes.get(from);
         if (fromNode === undefined) {
-            throw new Error("Illegal argument");
+            return false;
         }
 
         let toNode = this.nodes.get(to);
         if (toNode === undefined) {
-            throw new Error("Illegal argument");
+            return false;
         }
 
         this.adjacencyList.get(fromNode)?.push(toNode);
@@ -46,7 +44,7 @@ export class Graph {
     public traverse(root: string) {
         let rootNode = this.nodes.get(root);
         if (rootNode == undefined) {
-            throw new Error("Illegal argument");
+            return false;
         }
 
         this.traverseDepthFirst(rootNode, new Set<GraphNode>());
@@ -68,7 +66,7 @@ export class Graph {
 
         let rootNode = this.nodes.get(source);
         if (rootNode === undefined) {
-            throw new Error("Illegal argument");
+            return false;
         }
 
         let pathQueue: GraphNode[][] = [];
